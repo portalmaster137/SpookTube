@@ -1,9 +1,12 @@
 import express from 'express';
 import https from 'https';
 import fs from 'fs';
+import morgan from 'morgan';
 
 const app = express();
 const port = 443;
+
+app.use(morgan('combined'));
 
 app.route('/').get((req, res) => {
     res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
