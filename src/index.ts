@@ -31,7 +31,7 @@ app.route('/').get((req, res) => {
     //res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
 
     //send index.html in the html folder
-    res.sendFile(__dirname + '../html/index.html');
+    res.sendFile(__dirname + '/../html/index.html');
 });
 
 // Set up multer storage
