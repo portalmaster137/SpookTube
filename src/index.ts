@@ -21,6 +21,10 @@ app.use(morgan('combined'));
 
 app.enable('trust proxy');
 
+// host static files in static folder
+app.use(express.static(__proddirname + '/static'));
+
+
 app.use((req, res, next) => {
     if (req.secure) {
         next();
