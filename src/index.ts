@@ -14,6 +14,7 @@ app.use((req, res, next) => {
     if (req.secure) {
         next();
     } else {
+        console.log('Request to HTTP://' + req.headers.host + req.url + ' redirected to HTTPS')
         res.redirect('https://' + req.headers.host + req.url);
     }
 });
