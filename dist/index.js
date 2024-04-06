@@ -31,6 +31,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 // Define the upload route
 app.post('/api/upload', upload.single('video'), (req, res) => {
+    if (!req.file) {
+        res.status(400).send('No file uploaded');
+        return;
+    }
+    //file must be of type webm
+    if (req.file.mimetype !== 'video/webm') {
+        res.status(400).send('File must be of type webm');
+        return;
+    }
+    //file must be less than 5MiB
+    if (req.file.size > 5 * 1024 * 1024) {
+        res.status(400).send('File must be less than 5MiB');
+        return;
+    }
     // Handle the uploaded file here
     res.send('File uploaded successfully');
 });
