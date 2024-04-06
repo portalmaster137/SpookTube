@@ -25,10 +25,14 @@ app.use((req, res, next) => {
         res.redirect('https://' + req.headers.host + req.url);
     }
 });
+function getVideoCount() {
+    return fs.readdirSync('/spooktube/videos').length.toString();
+}
 app.route('/').get((req, res) => {
     //res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
-    //send index.html in the html folder
-    res.sendFile(__proddirname + '/html/index.html');
+    //send index.html in the html folder, but replace the text __VIDEOCOUNT__ with the number of videos in the videos folder
+    const index = fs.readFileSync(__proddirname + '/html/index.html', 'utf8');
+    res.send(index.replace('__VIDEOCOUNT__', getVideoCount()));
 });
 app.route('/upload').get((req, res) => {
     res.sendFile(__proddirname + '/html/upload.html');
