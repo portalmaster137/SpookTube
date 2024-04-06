@@ -51,7 +51,7 @@ app.route('/success').get((req, res) => {
 
 // Set up multer storage
 const storage = multer.diskStorage({
-    destination: '/spooktube/videos',
+    destination: '/spooktube/temp',
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
@@ -63,7 +63,8 @@ const upload = multer({ storage });
 // Define the upload route
 app.post('/api/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
-        res.status(400).send('No file uploaded');
+        res.status(400).send('No file selected');
+        //delete the file if it exists
         return;
     }
 
@@ -85,9 +86,15 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
         return;
     }
 
-    // Handle the uploaded file here
-    //when successful, redirect to /success
-    res.redirect('/success');
+    // Move the file saving logic here, after all checks pass
+    fs.rename(req.file.path, `/spooktube/videos/${req.file.originalname}`, (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.redirect('/success');
+    });
 });
 
 // Configure your routes and middleware here

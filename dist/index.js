@@ -48,7 +48,7 @@ const upload = multer({ storage });
 // Define the upload route
 app.post('/api/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
-        res.status(400).send('No file uploaded');
+        res.status(400).send('No file selected');
         return;
     }
     //if file name already exists
@@ -66,9 +66,15 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
         res.status(400).send('File must be less than 5MiB');
         return;
     }
-    // Handle the uploaded file here
-    //when successful, redirect to /success
-    res.redirect('/success');
+    // Move the file saving logic here, after all checks pass
+    fs.rename(req.file.path, `/spooktube/videos/${req.file.originalname}`, (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.redirect('/success');
+    });
 });
 // Configure your routes and middleware here
 // Load SSL certificate and key
