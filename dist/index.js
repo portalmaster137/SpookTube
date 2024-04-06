@@ -38,7 +38,7 @@ app.route('/success').get((req, res) => {
 });
 // Set up multer storage
 const storage = multer.diskStorage({
-    destination: '/spooktube/videos',
+    destination: '/spooktube/temp',
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
@@ -49,6 +49,7 @@ const upload = multer({ storage });
 app.post('/api/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
         res.status(400).send('No file selected');
+        //delete the file if it exists
         return;
     }
     //if file name already exists
