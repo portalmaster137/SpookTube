@@ -6,10 +6,13 @@ import morgan from 'morgan';
 import multer from 'multer';
 
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+//has to be ../ from __dirname because __dirname is /spooktube/dist
+const __proddirname = path.resolve(__dirname, '../');
 
 const app = express();
 const port = 443;
@@ -31,7 +34,7 @@ app.route('/').get((req, res) => {
     //res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
 
     //send index.html in the html folder
-    res.sendFile(__dirname + '/../html/index.html');
+    res.sendFile(__proddirname + '/html/index.html');
 });
 
 // Set up multer storage
