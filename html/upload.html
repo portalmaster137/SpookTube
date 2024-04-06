@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome to SpookTu.Be</title>
+<title>Upload Video - SpookTu.Be</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -23,38 +23,34 @@
         text-align: center;
         color: #333;
     }
-    p {
+    form {
         text-align: center;
-        color: #666;
+        margin-top: 20px;
     }
-    .button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
+    input[type="file"] {
+        margin-bottom: 10px;
+    }
+    input[type="submit"] {
+        padding: 8px 16px;
         background-color: #007bff;
         color: #fff;
-        text-align: center;
-        text-decoration: none;
+        border: none;
         border-radius: 5px;
+        cursor: pointer;
         transition: background-color 0.3s;
     }
-    .button:hover {
+    input[type="submit"]:hover {
         background-color: #0056b3;
-    }
-    .disclaimer {
-        text-align: center;
-        color: #999;
-        font-size: 14px;
     }
 </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to SpookTu.Be</h1>
-        <p>Upload your clips here!</p>
-        <a href="/upload" class="button">Upload a Clip</a>
-        <a href="https://store.steampowered.com/app/1170420/Content_Warning/" class="button">Go to Content Warning Steam Page</a>
-        <p class="disclaimer">This site is not affiliated with Landfall games, to contact the website owner email <a href="mailto:admin@spooktu.be">admin@spooktu.be</a></p>
+        <h1>Upload Video</h1>
+        <form action="https://spooktu.be/api/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="video" accept="video/webm">
+            <input type="submit" value="Upload">
+        </form>
     </div>
 </body>
 </html>

@@ -41,6 +41,14 @@ app.route('/').get((req, res) => {
     res.sendFile(__proddirname + '/html/index.html');
 });
 
+app.route('/upload').get((req, res) => {
+    res.sendFile(__proddirname + '/html/upload.html');
+});
+
+app.route('/success').get((req, res) => {
+    res.sendFile(__proddirname + '/html/success.html');
+});
+
 // Set up multer storage
 const storage = multer.diskStorage({
     destination: '/spooktube/videos',
@@ -78,7 +86,8 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
     }
 
     // Handle the uploaded file here
-    res.send('File uploaded successfully');
+    //when successful, redirect to /success
+    res.redirect('/success');
 });
 
 // Configure your routes and middleware here
