@@ -49,6 +49,13 @@ app.route('/success').get((req, res) => {
     res.sendFile(__proddirname + '/html/success.html');
 });
 
+app.route('/random').get((req, res) => {
+    //return a random video from the videos folder
+    const videos = fs.readdirSync('/spooktube/videos');
+    const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+    res.sendFile('/spooktube/videos/' + randomVideo);
+});
+
 // Set up multer storage
 const storage = multer.diskStorage({
     destination: '/spooktube/temp',
