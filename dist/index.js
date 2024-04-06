@@ -4,6 +4,10 @@ import fs from 'fs';
 import http from 'http';
 import morgan from 'morgan';
 import multer from 'multer';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const port = 443;
 app.use(morgan('combined'));
@@ -18,7 +22,9 @@ app.use((req, res, next) => {
     }
 });
 app.route('/').get((req, res) => {
-    res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
+    //res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
+    //send index.html in the html folder
+    res.sendFile(__dirname + '/html/index.html');
 });
 // Set up multer storage
 const storage = multer.diskStorage({
@@ -33,6 +39,11 @@ const upload = multer({ storage });
 app.post('/api/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
         res.status(400).send('No file uploaded');
+        return;
+    }
+    //if file name already exists
+    if (fs.existsSync(`/spooktube/videos/${req.file.originalname}`)) {
+        res.status(400).send('File name already exists');
         return;
     }
     //file must be of type webm
