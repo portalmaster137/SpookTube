@@ -8,6 +8,16 @@ const port = 443;
 
 app.use(morgan('combined'));
 
+app.enable('trust proxy');
+
+app.use((req, res, next) => {
+    if (req.secure) {
+        next();
+    } else {
+        res.redirect('https://' + req.headers.host + req.url);
+    }
+});
+
 app.route('/').get((req, res) => {
     res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
 });
