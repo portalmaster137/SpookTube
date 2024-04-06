@@ -1,6 +1,7 @@
 import express from 'express';
 import https from 'https';
 import fs from 'fs';
+import http from 'http';
 import morgan from 'morgan';
 const app = express();
 const port = 443;
@@ -29,7 +30,11 @@ const credentials = {
     ca: ca
 };
 // Create HTTPS server
+const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
+httpServer.listen(80, () => {
+    console.log('HTTP Server running on port 80');
+});
 // Start the server
 httpsServer.listen(port, () => {
     console.log(`Server running on port ${port}`);
