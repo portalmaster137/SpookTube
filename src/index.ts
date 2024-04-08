@@ -5,6 +5,9 @@ import http from 'http';
 import morgan from 'morgan';
 import multer from 'multer';
 
+const REDIRECT_ALL = true;
+//if true, redirect ALL requests to "https://store.steampowered.com/app/2881650/Content_Warning/"
+
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 
@@ -26,6 +29,12 @@ app.use(express.static(__proddirname + '/static'));
 
 
 app.use((req, res, next) => {
+
+    if (REDIRECT_ALL) {
+        res.redirect('https://store.steampowered.com/app/2881650/Content_Warning/');
+        return;
+    }
+
     if (req.secure) {
         next();
     } else {
